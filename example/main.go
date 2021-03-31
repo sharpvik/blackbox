@@ -1,20 +1,25 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 )
 
 func main() {
-	fmt.Println("Made with ❤️  by sharpvik for Black Box")
-	fmt.Println("My GitHub: https://github.com/sharpvik/")
-	fmt.Println("BlackBox GitHub Repo: https://github.com/sharpvik/blackbox/")
+	greet()
 
 	server := &http.Server{
 		Addr:    ":8000",
 		Handler: mainHandler(users),
 	}
 
-	fmt.Println("Serving at http://localhost:8000/ ...")
+	log.Print("Serving at http://localhost:8000/ ...")
+	log.Print("Go to http://localhost:8000/api/Viktor to make sure it works!")
 	server.ListenAndServe()
+}
+
+func greet() {
+	log.Print("Made with ❤️  by sharpvik for BlackBox")
+	log.Print("My GitHub: https://github.com/sharpvik/")
+	log.Print("BlackBox GitHub Repo: https://github.com/sharpvik/blackbox/")
 }

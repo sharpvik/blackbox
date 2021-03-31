@@ -37,14 +37,18 @@ func (resp *Response) WithHeader(name, value string) *Response {
 	return resp
 }
 
-// Write writes given bytes to Response.Body.
-func (resp *Response) Write(b []byte) {
+// Write writes given bytes to Response.Body and returns reference to the
+// Response.
+func (resp *Response) Write(b []byte) *Response {
 	resp.Body.Write(b)
+	return resp
 }
 
-// WriteString writes given string to Response.Body.
-func (resp *Response) WriteString(s string) {
+// WriteString writes given string to Response.Body and returns reference to the
+// Response.
+func (resp *Response) WriteString(s string) *Response {
 	resp.Body.WriteString(s)
+	return resp
 }
 
 // EncodeJSON uses Go's default encoding/json library to encode data as JSON
