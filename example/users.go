@@ -1,5 +1,10 @@
 package main
 
+/*
+ * This file serves as a database mock. We just declare some constants here for
+ * later use.
+ */
+
 type user struct {
 	Name string
 	Age  int

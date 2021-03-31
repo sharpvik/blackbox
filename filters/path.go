@@ -7,7 +7,7 @@ import (
 	"github.com/sharpvik/blackbox"
 )
 
-// Path filter filters out requests with URIs that exactly matche p.
+// Path filter filters out requests with URIs that exactly match p.
 func Path(p string) blackbox.FilterFunc {
 	return func(r *http.Request) bool {
 		return r.URL.String() == p

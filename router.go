@@ -69,6 +69,13 @@ func (rtr *Router) WithFilterFuncs(filters ...FilterFunc) *Router {
 	return rtr
 }
 
+// WithRoute accepts a Route, adds it to the registered routes, and returns
+// reference to the accepting Router.
+func (rtr *Router) WithRoute(sub Route) *Router {
+	rtr.routes = append(rtr.routes, sub)
+	return rtr
+}
+
 // Subrouter adds a newly created subrouter instance to the Router, returning
 // a reference to that subrouter for future modification.
 func (rtr *Router) Subrouter() (sub *Router) {
