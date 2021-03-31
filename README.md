@@ -19,6 +19,6 @@ exposed Response instance that can be tested and examined.
    writing it to `net/http.ResponseWriter`
 3. Well tested with an **average coverage of 85%** across all packages
 4. Extendable architecture: if you need more filters or additional middleware,
-   just implement your own by implementing interfaces like `blackbox.Filter`.
+   just implement your own by implementing interfaces like `blackbox.Filter`
 5. As a bonus, `blackbox.Response` supports JSON serialization out of the box:
    just call `resp.EncodeJSON(object)` and you're golden!
