@@ -105,7 +105,12 @@ func Params(params paramsList, h blackbox.Handler) *Middleware {
 //                     ParamInt("id")),
 //             myMagicHandler)
 //
+// Parameter list must not be empty! This function will panic if you don't
+// provide any parameters.
 func ParamsList(params ...Param) paramsList {
+	if len(params) == 0 {
+		panic("empty parames list")
+	}
 	return params
 }
 
@@ -143,7 +148,7 @@ func (params paramsList) filter() blackbox.FilterFunc {
 	expr := params.regex()
 	return func(r *http.Request) bool {
 		uri := r.URL.String()
-		return len(expr.FindString(uri)) == len(uri)
+		return len(uri) > 0 && len(expr.FindString(uri)) == len(uri)
 	}
 }
 
