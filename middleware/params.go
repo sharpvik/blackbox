@@ -109,7 +109,7 @@ func Params(params paramsList, h blackbox.Handler) *Middleware {
 // provide any parameters.
 func ParamsList(params ...Param) paramsList {
 	if len(params) == 0 {
-		panic("empty parames list")
+		panic("empty params list")
 	}
 	return params
 }
