@@ -11,6 +11,7 @@ type Response struct {
 	// See https://pkg.go.dev/net/http#pkg-constants for status constants.
 	Status  int
 	Headers map[string]string
+	Cookies map[string]*http.Cookie
 	Body    *bytes.Buffer
 }
 
@@ -20,6 +21,7 @@ func NewResponse() *Response {
 	return &Response{
 		Status:  http.StatusOK,
 		Headers: make(map[string]string),
+		Cookies: make(map[string]*http.Cookie),
 		Body:    bytes.NewBuffer(make([]byte, 0, 1024)),
 	}
 }
@@ -34,6 +36,13 @@ func (resp *Response) WithStatus(status int) *Response {
 // with the same name) and returns reference to that same Response.
 func (resp *Response) WithHeader(name, value string) *Response {
 	resp.Headers[name] = value
+	return resp
+}
+
+// WithCookie sets cookie in Response.Cookies (overwriting any existing cookies
+// with the same name) and returns reference to that same Response.
+func (resp *Response) WithCookie(cookie *http.Cookie) *Response {
+	resp.Cookies[cookie.Name] = cookie
 	return resp
 }
 
@@ -63,9 +72,22 @@ func (resp *Response) EncodeJSON(data interface{}) error {
 //
 // Respond helps Response implement Responder interface.
 func (resp *Response) Respond(w http.ResponseWriter) {
+	resp.writeCookies(w)
 	resp.writeHeaders(w)
 	resp.writeStatus(w)
 	resp.writeBody(w)
+}
+
+func (resp *Response) writeCookies(w http.ResponseWriter) {
+	for _, cookie := range resp.Cookies {
+		http.SetCookie(w, cookie)
+	}
+}
+
+func (resp *Response) writeHeaders(w http.ResponseWriter) {
+	for name, value := range resp.Headers {
+		w.Header().Set(name, value)
+	}
 }
 
 func (resp *Response) writeStatus(w http.ResponseWriter) {
@@ -73,12 +95,6 @@ func (resp *Response) writeStatus(w http.ResponseWriter) {
 		resp.Status = http.StatusOK
 	}
 	w.WriteHeader(resp.Status)
-}
-
-func (resp *Response) writeHeaders(w http.ResponseWriter) {
-	for key, value := range resp.Headers {
-		w.Header().Set(key, value)
-	}
 }
 
 func (resp *Response) writeBody(w http.ResponseWriter) {

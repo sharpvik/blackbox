@@ -40,3 +40,15 @@ func RespondWithStatusAndMessage(
 		return resp
 	}
 }
+
+func RespondWithStatusAndCookie(
+	status int, name, value string) blackbox.HandlerFunc {
+	return func(*http.Request) *blackbox.Response {
+		return blackbox.NewResponse().
+			WithStatus(status).
+			WithCookie(&http.Cookie{
+				Name:  name,
+				Value: value,
+			})
+	}
+}
