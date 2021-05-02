@@ -24,7 +24,7 @@ func New() *Router {
 	return &Router{
 		filters: make([]Filter, 0),
 		routes:  make([]Route, 0),
-		handler: statusAndMessage(http.StatusNotImplemented, "Not Implemented"),
+		handler: statusAndMessage(http.StatusNotFound, "Not Found"),
 	}
 }
 

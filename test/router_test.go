@@ -15,7 +15,7 @@ func TestDefaultRouter(t *testing.T) {
 	rtr := blackbox.New()
 	req := test_utils.Get(t, "/")
 	resp := rtr.Handle(req)
-	assert.Equal(t, resp.Status, http.StatusNotImplemented)
+	assert.Equal(t, resp.Status, http.StatusNotFound)
 }
 
 func TestWithSubroutesFiltersAndHandlers(t *testing.T) {
