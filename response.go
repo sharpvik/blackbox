@@ -67,6 +67,12 @@ func (resp *Response) EncodeJSON(data interface{}) error {
 	return json.NewEncoder(resp.Body).Encode(data)
 }
 
+// DecodeJSON uses Go's default encoding/json library to decode data from
+// Request.Body as JSON.
+func (resp *Response) DecodeJSON(data interface{}) error {
+	return json.NewDecoder(resp.Body).Decode(data)
+}
+
 // Respond writes information stored within this Response instance into the
 // given net/http.ResponseWriter, thus, sending it to the client.
 //
