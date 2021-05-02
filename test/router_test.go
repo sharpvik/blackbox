@@ -54,3 +54,21 @@ func TestWithCookie(t *testing.T) {
 	assert.Equal(t, "cookie", cookie.Name)
 	assert.Equal(t, "ok", cookie.Value)
 }
+
+func TestDecodeJSON(t *testing.T) {
+	rtr := blackbox.New().
+		WithHandler(
+			test_utils.RespondWithStatusAndMessage(
+				http.StatusOK, `{"endpoint": "default", "handle": "sharpvik"}`))
+	type shape struct {
+		Endpoint string `json:"endpoint"`
+		Handle   string `json:"handle"`
+	}
+	resp := rtr.Handle(test_utils.Get(t, "/"))
+	var s shape
+	assert.NoError(t, resp.DecodeJSON(&s))
+	assert.Equal(t, s, shape{
+		Endpoint: "default",
+		Handle:   "sharpvik",
+	})
+}
