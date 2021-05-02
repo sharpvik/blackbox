@@ -160,7 +160,7 @@ func (params paramsList) expr() string {
 	var builder strings.Builder
 	for _, p := range params {
 		builder.WriteByte('/')
-		builder.WriteString(p.Regex().String())
+		builder.WriteString(strings.Trim(p.Regex().String(), "/"))
 	}
 	return builder.String()
 }
